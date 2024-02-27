@@ -4,6 +4,7 @@ const pieces = await reponse.json();
 
 //déclaration des éléments
 const article = pieces[0];
+
 const imageElement = document.createElement("img");
 imageElement.src = article.image;
 const nomElement = document.createElement("h2");
