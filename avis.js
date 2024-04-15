@@ -10,17 +10,20 @@ export function ajoutListenersAvis() {
         const reponse = await fetch("http://localhost:8081/pieces/" + id + "/avis");
         const avis = await reponse.json();
         const pieceElement = event.target.parentElement;
-
-        const avisElement = document.createElement("p");
-        for (let i = 0; i < avis.length; i++) {
-            avisElement.innerHTML += `<b>${avis[i].utilisateur}: nombre d'étoiles : ${avis[i].note}</b> ${avis[i].commentaire} <br>`;
-        }
-        pieceElement.appendChild(avisElement);
- 
+        window.localStorage.setItem(`avis-pieces-${id}`, JSON.stringify(avis))
+        afficherAvis(pieceElement, avis)
      });
  
     }
  
+ }
+
+export function afficherAvis(pieceElement, avis){
+    const avisElement = document.createElement("p");
+    for (let i = 0; i < avis.length; i++) {
+        avisElement.innerHTML += `<b>${avis[i].utilisateur}: nombre d'étoiles : ${avis[i].note}</b> ${avis[i].commentaire} <br>`;
+    }
+    pieceElement.appendChild(avisElement);
  }
 
  //ajouter avis

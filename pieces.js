@@ -1,7 +1,19 @@
-import { ajoutListenersAvis, ajoutListenerEnvoyerAvis } from "./avis.js";
+import { ajoutListenersAvis, ajoutListenerEnvoyerAvis, afficherAvis } from "./avis.js";
 // Récupération des pièces depuis le fichier JSON
-const reponse = await fetch("http://localhost:8081/pieces/");
-const pieces = await reponse.json();
+let pieces = window.localStorage.getItem('pieces');
+
+if (pieces === null) {
+    const pieces = await fetch("http://localhost:8081/pieces").then(pieces => pieces.json());
+    //transformation des pièces en JSON
+    const valeurPieces = JSON.stringify(pieces);
+    //stockage des informations dans le localStorage
+    window.localStorage.setItem("pieces", valeurPieces);
+} else {
+    pieces = JSON.parse(pieces);
+}
+
+
+
 
 ajoutListenerEnvoyerAvis()
 
@@ -50,6 +62,16 @@ function genererPieces(pieces){
 //Premier affichage page
 genererPieces(pieces);
 
+for(let i = 0; i < pieces.length; i++){
+    const id = pieces[i].id;
+    const avisJSON = window.localStorage.getItem(`avis-pieces-${id}`);
+    const avis = JSON.parse(avisJSON);
+
+    if(avis !== null){
+        const pieceElement = document.querySelector(`article[data-id="${id}"]`);
+        afficherAvis (pieceElement, avis)
+    }
+}
 // trier prix croissant
 const boutonTrier = document.querySelector(".btn-trier")
 
@@ -155,3 +177,7 @@ inputPrixMax.addEventListener('input', function(){
     genererPieces(piecesFiltrees)
 })
 
+const bouttonMettreAJour = document.querySelector(".btn-maj");
+bouttonMettreAJour.addEventListener("click", function(){
+    window.localStorage.removeItem(pieces)
+})
