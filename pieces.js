@@ -1,12 +1,10 @@
 import { ajoutListenersAvis, ajoutListenerEnvoyerAvis, afficherAvis, afficherGraphiqueAvis } from "./avis.js";
 //Récupération des pièces eventuellement stockées dans le localStorage
-//let pieces = window.localStorage.getItem('pieces');
+let pieces = window.localStorage.getItem('pieces');
 
-// Récupération des pièces depuis l'API
-const reponse = await fetch('http://localhost:8080/pieces/');
-pieces = await reponse.json();
 
-/*if (pieces === null) {
+
+if (pieces === null) {
     // Récupération des pièces depuis l'API
     const reponse = await fetch('http://localhost:5500/pieces/');
     pieces = await reponse.json();
@@ -16,7 +14,7 @@ pieces = await reponse.json();
     window.localStorage.setItem("pieces", valeurPieces);
 } else {
     pieces = JSON.parse(pieces);
-}*/
+}
 // on appel la fonction pour ajouter le listener au formulaire
 ajoutListenerEnvoyerAvis()
 
@@ -66,7 +64,7 @@ genererPieces(pieces);
 
 for (let i = 0; i < pieces.length; i++) {
     const id = pieces[i].id;
-    //const avisJSON = window.localStorage.getItem(`avis-piece-${id}`);
+    const avisJSON = window.localStorage.getItem(`avis-piece-${id}`);
     const avis = JSON.parse(avisJSON);
 
     if (avis !== null) {
@@ -97,7 +95,7 @@ boutonFiltrer.addEventListener("click", function () {
     genererPieces(piecesFiltrees);
 });
 
-//Correction Exercice
+
 const boutonDecroissant = document.querySelector(".btn-decroissant");
 
 boutonDecroissant.addEventListener("click", function () {
@@ -177,7 +175,7 @@ inputPrixMax.addEventListener('input', function () {
 // Ajout du listener pour mettre à jour des données du localStorage
 const boutonMettreAJour = document.querySelector(".btn-maj");
 boutonMettreAJour.addEventListener("click", function () {
-    //window.localStorage.removeItem("pieces");
+    window.localStorage.removeItem("pieces");
 });
 
 await afficherGraphiqueAvis();
