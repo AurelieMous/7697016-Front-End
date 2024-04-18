@@ -3,7 +3,7 @@ import { ajoutListenersAvis, ajoutListenerEnvoyerAvis, afficherAvis } from "./av
 let pieces = window.localStorage.getItem('pieces');
 
 if (pieces === null) {
-    const pieces = await fetch("http://localhost:8081/pieces").then(pieces => pieces.json());
+    const pieces = await fetch("http://localhost:8080/pieces").then(pieces => pieces.json());
     //transformation des pièces en JSON
     const valeurPieces = JSON.stringify(pieces);
     //stockage des informations dans le localStorage
